@@ -9,7 +9,7 @@ date-format: long
 label:
   - RFD
 link:
-  - "[link1](https://){target=_blank}"
+  - "[#1](https://github.com/efrikin/rfds/pull/1){target=_blank}"
 open-graph: true
 # draft: true
 ---
