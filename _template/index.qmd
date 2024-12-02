@@ -1,9 +1,7 @@
 ---
 title: |-
-   0000
+  RFD: 0000
 status: draft
-description: |-
-  RFD description
 author:
   - name: John Doe
   - name: Jane Doe

@@ -15,13 +15,13 @@ jobs:
     - name: Prepare
       run: |
         mkdir -p rfds
-        echo "[link to RFD repository](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}){target="_blank"}" > _link.qmd
+        echo "[RFD source code](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}){target="_blank"}" > _link.qmd
         tar -cf- * | tar -xf- --exclude quarto-preview.yaml --exclude README.md --exclude _quarto.yaml --exclude rfds -C rfds
 
     - name: Deploy
       uses: s0/git-publish-subdir-action@v2.6.0
       env:
-        REPO: git@github.com:efrikin/test.git
+        REPO: git@github.com:efrikin/efrikin.github.io.git
         BRANCH: main
         FOLDER: rfds
         TARGET_DIR: rfds
