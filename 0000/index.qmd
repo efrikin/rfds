@@ -139,12 +139,14 @@ of RFD, etc. may dictate a different timeline. In general, RFD should not be
 merged if no one else has read or commented on it. If no one is reading your
 RFD, it’s time to explicitly ask someone to give it a read.
 
-RFD consists of four parts:
+RFD consists of six parts:
 
 - Title (including unique number)
 - Problem Statement (root cause(s))
 - Metadata (headers)
 - Specification (body)
+- Details of implementation (optional)
+- References (optional)
 
 ### Title
 
