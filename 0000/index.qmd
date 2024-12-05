@@ -155,7 +155,7 @@ without spaces (e.g `0000-rfd.md`) or folder containing only numbers
 
 ### Problem Statement
 
-The section outlines the specific problem you hope to solve with your RFD.
+The section describes a specific problem which will be solved in RFD.
 
 ### Metadata
 
@@ -198,13 +198,18 @@ Specification can contain set of requirements for implementation an idea.
 For example: diagrams, security issues, testing plan, observability,
 documentation for customer, etc.
 
+### Details of implementation
+
+When implementation has been done and RFD is ready to change its status to `implemented`, details about implementation can be added into the document (e.g. details about functions/methods/library/etc).
+
 ### References
 
 List of links related to the described ideas
 
 ## References
 
-- TODO
+- [oxide RFD](https://rfd.shared.oxide.computer/rfd/1)
+- [Teleport RFD](https://github.com/gravitational/teleport/blob/master/rfd/0000-rfds.md)
 
 ## Contributing
 
@@ -213,4 +218,3 @@ submit a RFD or to comment on one. The best part about the RFD process is that
 it itself is expressed in this RFD. If you want to change the process itself,
 you can apply the RFD process to its own RFD.
 The discussions for RFD happen publicly.
-
