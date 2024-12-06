@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "0000/index.html",
+    "href": "0000/index.html",
+    "title": "RFD: 0000",
+    "section": "",
+    "text": "This document describes a format for changing in technical/non-technical documents in projects."
+  },
+  {
+    "objectID": "0000/index.html#problem-statement",
+    "href": "0000/index.html#problem-statement",
+    "title": "RFD: 0000",
+    "section": "Problem Statement",
+    "text": "Problem Statement\nI like when any employee in company/community can participate in any discussions. For example if big tasks are discussed at online/offline meetings without agenda this process can cause miscommunication. Obviously, this process is not transparent. Unlike, if discussions are held in text format with version control where each participant can take part in them and thoroughly think through their proposals. It leads to increase of people amount who is interested in such discussions, decrease of time wasting and efficient time management.\nIn some communities, such as IETF discussions like this are united into working groups. So, after the discussions a document called Request for Comments (RFC) is published.\n\nRFC3 1\n\nThe content of a NWG note may be any thought, suggestion, etc. related to the HOST software or other aspect of the network. Notes are encouraged to be timely rather than polished. Philosophical positions without examples or other specifics, specific suggestions or implementation techniques without introductory or background explication, and explicit questions without any attempted answers are all acceptable. The minimum length for a NWG note is one sentence.\n\n\nThese standards (or lack of them) are stated explicitly for two reasons. First, there is a tendency to view a written statement as ipso facto authoritative, and we hope to promote the exchange and discussion of considerably less than authoritative ideas. Second, there is a natural hesitancy to publish something unpolished, and we hope to ease this inhibition.\n\nSimilar process exists in the other popular communities:\n\n\nKubernetes 2\n\nFor cross-project SIGs such as SIG Release, an abstraction beyond a single GitHub Issue or pull request seems to be required in order to understand and communicate upcoming changes to Kubernetes. In a blog post describing the road to Go 2, Russ Cox explains:\n\nthat it is difficult but essential to describe the significance of a problem in a way that someone working in a different environment can understand\nIt is vital for the project to be able to track the chain of custody for a proposed enhancement from conception through implementation.\nWithout a standardized mechanism for describing important enhancements, our talented technical writers and product managers struggle to weave a coherent narrative explaining why a particular release is important. Additionally, adopters of critical infrastructure such as Kubernetes need a forward-looking roadmap in order to plan their adoption strategies.\nThe purpose of the KEP process is to reduce the amount of “tribal knowledge” in our community. By moving decisions from a smattering of mailing lists, video calls and hallway conversations into a well tracked artifact, this process aims to enhance communication and discoverability.\n\n\nOpenstack 3\n\nThe Documentation team uses specifications in the docs-specs repository to maintain large changes. Approved specifications are published at Documentation Program Specifications. For tracking purposes, a blueprint is created for each specification.\n\n\n\nGo 4\n\nThe Go project’s development process is design-driven. Significant changes to the language, libraries, or tools must be first discussed, and sometimes formally documented, before they can be implemented.\n\nInstead of inviting at meeting (it’s necessary to find their free time) some person one can create an online document where any person can contribute. Finally, working group can get together for summary. This approach, through “draft” culture, enables track evolution product/process and forms understanding of taken decisions among new users.\nTherefore, ideas badly need to be written and discussed since it enable to track and thoroughly form them. also it forces discussion in public area and collecting knowledge base by established ideas.\nSimilar process at Request for Comments called Request for Discussion (RFD) is used by some companies/communities.\nRFD can be applied not only for discussing technical ideas, but also any process in community/companies. If you are unsure whether you need to write an RFD following examples are appropriate:\n\nAdding endpoints/flags to an API/CLI tool\nDesigning CI/CD\nAdding/changing a company/community process\nAdding/changing document to knowledge base\nChanging the RFD process\n\nWhile describing/commenting technical details or any ideas you should follow some recommendations:\n\ndescribe pros, cons and alternatives\nadd links on documentation/source code\ncollect business/customer voice\nfor those giving feedback on the PR/MR, be sure that all feedback is constructive. Put yourself in the other person’s shoes and if the comment you are about to make is not something you would want someone commenting on an RFD of yours, then do not make the comment."
+  },
+  {
+    "objectID": "0000/index.html#specifications",
+    "href": "0000/index.html#specifications",
+    "title": "RFD: 0000",
+    "section": "Specifications",
+    "text": "Specifications\nRFD can describe different process which can have different severity, ETA for discussing and etc. You must use common sense when you are describing RFD. You decide when to start discussion. As a guideline, 3-5 business days to comment on your RFD before ending discussing seems reasonable , but different circumstances, such as: time zones, availability of particular expertise, length of RFD, etc. may dictate a different timeline. In general, RFD should not be merged if no one else has read or commented on it. If no one is reading your RFD, it’s time to explicitly ask someone to give it a read.\nRFD consists of six parts:\n\nTitle (including unique number)\nProblem Statement (root cause(s))\nMetadata (headers)\nSpecification (body)\nDetails of implementation (optional)\nReferences (optional)\n\n\nTitle\nTitle includes a unique number and a name (e.g. RFD: 0000). File should be in a special format (e.g. markdown) and filename should include - instead of : without spaces (e.g 0000-rfd.md) or folder containing only numbers (e.g. 0000/index.md).\n\n\nProblem Statement\nThe section describes a specific problem which will be solved in RFD.\n\n\nMetadata\n\nAuthor(s)\nThe field author(s) should contain RFD owner’s name (or the list) including communication channel (e.g. John Doe jdoe@example.com)\n\n\nStatus\nOne of the following status should be used:\n\ndraft: status signifies that the work is not yet ready for discussion. The ‘draft’ status signifies that work are being done on the RFD in its branch in order to advance the RFD to the discussion status.\ndiscussion: status signifies that discussion has been started. Usually at this stage a discussion related to RFD is being had in a PR/MR.\npublished: when discussion has done and RFD is ready to be merged to main branch, document status should be updated to the published status before merging. Also if some RFD is in the published status it does not mean that it cannot be updated or edited, because as work progresses on a project, it may turn out that our initial ideas and theories have been rejected or other issues have come up. In such cases, you should come back and update the RFD.\nimplemented: when an idea has been fully implemented, document status should be changed into implemented status.\nrejected: if an idea was not implemented or was rejected on discussion stage document status can be changed into rejected.\n\n\n\nLink(s)\nList of links to discussions. Usually link(s) lead to PR/MR.\n\n\nTags/Labels\nList of labels/tags related to RFD (e.g. design)\n\n\n\nSpecification\nSpecification can contain set of requirements for implementation an idea. For example: diagrams, security issues, testing plan, observability, documentation for customer, etc.\n\n\nDetails of implementation\nWhen implementation has been done and RFD is ready to change its status to implemented, details about implementation can be added into the document (e.g. details about functions/methods/library/etc).\n\n\nReferences\nList of links related to the described ideas"
+  },
+  {
+    "objectID": "0000/index.html#references-1",
+    "href": "0000/index.html#references-1",
+    "title": "RFD: 0000",
+    "section": "References",
+    "text": "References\n\noxide RFD\nTeleport RFD"
+  },
+  {
+    "objectID": "0000/index.html#contributing",
+    "href": "0000/index.html#contributing",
+    "title": "RFD: 0000",
+    "section": "Contributing",
+    "text": "Contributing\nContributions are welcome. You do not have to be a world-class engineers to submit a RFD or to comment on one. The best part about the RFD process is that it itself is expressed in this RFD. If you want to change the process itself, you can apply the RFD process to its own RFD. The discussions for RFD happen publicly."
+  },
+  {
+    "objectID": "0000/index.html#footnotes",
+    "href": "0000/index.html#footnotes",
+    "title": "RFD: 0000",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nRFC3↩︎\nKEP↩︎\nBlueprints and specifications↩︎\nProposing Changes to Go↩︎"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "RFD source code\n\n\n\n\n\n\n\n\n\nTitle\n\n\nStatus\n\n\nAuthor\n\n\nLabel\n\n\nDate\n\n\nModified\n\n\nLink\n\n\n\n\n\n\nRFD: 0000\n\n\ndiscussion\n\n\nEvgenii Frikin\n\n\nRFD\n\n\nDec 1, 2024\n\n\n12/6/24, 1:41:33 AM\n\n\n#1\n\n\n\n\n\nNo matching items"
+  }
+]
