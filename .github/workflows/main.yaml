@@ -15,7 +15,6 @@ jobs:
 
       - name: Prepare
         run: |
-          mkdir -p rfds
           echo "[RFD source code](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}){target="_blank"}" > _link.qmd
 
       - name: Set up Quarto
