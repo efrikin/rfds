@@ -25,6 +25,6 @@ jobs:
         BRANCH: main
         FOLDER: RFDs
         TARGET_DIR: RFDs
-        MESSAGE: "[sha]: {msg}"
+        MESSAGE: "[{sha}]: {msg}"
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 
