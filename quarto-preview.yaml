@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: quarto-preview
+  name: quarto
 spec:
   containers:
-    - name: quarto
+    - name: preview
       image: ghcr.io/quarto-dev/quarto:1.7.1
       command:
         - quarto
