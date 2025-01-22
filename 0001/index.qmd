@@ -39,6 +39,12 @@ process. This mechanism is usually called &laquo;`break-glass`&raquo;.
 It includes special credentials usage in an emergency case when traditional
 access methods do not work.
 
+> Break-glass access refers to a procedure used in critical emergencies or
+exceptional cases, when a user with insufficient access is granted elevated
+access rights to bypass normal access controls - SSH Academy [^break-glass]
+
+[^break-glass]: [What is Break-Glass Access?](https://www.ssh.com/academy/secrets-management/what-is-break-glass-access)
+
 In common case companies use SSH protocol and dedicate highest-level account to
 access to infrastructure in emergency case. This approach brings the following
 issues:
@@ -52,7 +58,6 @@ issues:
   cut off from its systems. A comprehensive &laquo;`break-glass`&raquo; solution
   is required to give the engineers access back to their critical
   systems when password manager fails.
-
 
 The most common way of handling SSH authentication is public key authentication.
 This is much stronger than simply using a password, but it creates a problem of
@@ -74,9 +79,9 @@ many times more obsolete authorized keys than they have employees. Worse,
 authorized keys generally grant command-line shell access, which in itself is
 often considered privileged. We have found that in many organizations about 10%
 of the authorized keys grant root or administrator access. SSH keys never
-expire. [^1]
+expire. [^ylonen]
 
-[^1]: [Challenges in Managing SSH Keys – and a Call for Solutions](https://ylonen.org/papers/ssh-key-challenges.pdf)
+[^ylonen]: [Challenges in Managing SSH Keys – and a Call for Solutions](https://ylonen.org/papers/ssh-key-challenges.pdf)
 
 
 >Historically, most organizations have not touched the location of the authorized
@@ -92,14 +97,15 @@ Enterprises should also pay attention to the AuthorizedKeysCommand and
 AuthorizedKeysCommandUser options. They are typically used when SELinux is
 enabled and to fetch SSH keys from LDAP directories or other data sources.
 Their use can make auditing SSH keys cumbersome and they can be used to hide
-backdoor keys from casual observation. [^2]
+backdoor keys from casual observation. [^ssh-academy]
 
-[^2]: [AuthorizedKeysFile location](https://ssh.com/academy/ssh/sshd_config)
+[^ssh-academy]: [AuthorizedKeysFile location](https://ssh.com/academy/ssh/sshd_config)
 
 Although, pubkeys have advantages over password keys are not passwords.
-There are several significant differences between SSH keys and passwords: [^3]
+There are several significant differences between SSH keys and
+passwords: [^ssh-academy-2]
 
-[^3]: [SSH Key Management Compass - 9 Ways To Manage Your Authentication Keys](https://www.ssh.com/hubfs/White%20papers/SSH-key-management-compass-2022.pdf)
+[^ssh-academy-2]: [SSH Key Management Compass - 9 Ways To Manage Your Authentication Keys](https://www.ssh.com/hubfs/White%20papers/SSH-key-management-compass-2022.pdf)
 
 - Passwords are related to user accounts. SSH user keys don not have to be
 - Passwords usually have expiration times SSH user keys don not
@@ -154,7 +160,7 @@ sends an `SSH_MSG_SERVICE_REQUEST` to request the
 `SSH User Authentication Protocol` or `SSH Connection Protocol`. All the data
 will be sent protected by encryption and MAC.
 
-According to `Authentication Requests` section in the RFC4252: [^4]
+According to `Authentication Requests` section in the RFC4252: [^rfc4252]
 
 >If the requested 'user name' does not exist, the server MAY disconnect, or MAY
 send a bogus list of acceptable authentication 'method name' values, but never
@@ -162,7 +168,14 @@ accept any. This makes it possible for the server to avoid disclosing informatio
 on which accounts exist. In any case, if the 'user name' does not exist, the
 authentication request MUST NOT be accepted.
 
-[^4]: [RFC4252: Authentication Requests](https://datatracker.ietf.org/doc/html/rfc4252#section-5)
+[^rfc4252]: [RFC4252: Authentication Requests](https://datatracker.ietf.org/doc/html/rfc4252#section-5)
+
+```{mermaid}
+%%| label: fig-sshd-nss
+%%| fig-align: center
+%%| fig-cap: "Conversation between sshd and NSS"
+%%| file: diagrams/08-sshd-nss.mmd
+```
 
 That's why it's necessary to consider `SSH User Authentication Protocol` in a
 more detailed way. It performs the following functions:
@@ -181,7 +194,7 @@ more detailed way. It performs the following functions:
 4. if the server requires more than one authentication method then server
    sends partial success
 5. when all required authentication methods succeed the server sends a
-`SSH_MSG_USERAUTH_SUCCESS` message.
+   `SSH_MSG_USERAUTH_SUCCESS` message.
 
 ```{mermaid}
 %%| label: fig-ssh-auth
@@ -239,11 +252,11 @@ If NSS returns success then user exists. Thus, SSH server continues
 authentication process depending on authentication methods (password, pubkey,
 etc.). All authentication methods depend on NSS answer. SSH server checks
 settings related to authentication methods (e.g. looks up password in the
-`/etc/shadow` or keys in `AuthorizedKeysFile` [^5]). In order to create user
-on-demand it's necessary to implement custom NSS module and configure it in
-the `/etc/nsswitch.conf`.
+`/etc/shadow` or keys in `AuthorizedKeysFile` [^sshd-config-auth-keys]).
+In order to create user on-demand it's necessary to implement custom NSS module
+and configure it in the `/etc/nsswitch.conf`.
 
-[^5]: man 5 sshd_config
+[^sshd-config-auth-keys]: man 5 sshd_config
 
 After successful authentication (last authentication phase) the next stage is
 `Session Establishment`. On that stage the client is allowed to access to the
@@ -251,11 +264,34 @@ server. Session is opened after all `Linux Pluggable Authentication` (PAM)
 verification. In order to configure user's session it's necessary to implement
 custom PAM module and configure it in one of files in the `/etc/pam.d`.
 During performing PAM stage some environment variables will be defined. One of
-them is `SSH_AUTH_INFO_0`. It exposes authentication information to PAM module
+them is `SSH_AUTH_INFO_0`.[^ssh-auth-info] It exposes authentication information to PAM module
 (e.g. pubkey, certificate, etc.). This variable can be used as source for
 making decisions during authorization process (e.g. assigning sudo group to
 user).
 
+[^ssh-auth-info]: [openssh-portable/auth-pam.c](https://github.com/openssh/openssh-portable/blob/953fa5b59afb04c3c74ed82d7bace65c13cd8baa/auth-pam.c#L778-L796)
+
+::: {.callout-important}
+UsePAM Enables the Pluggable Authentication Module interface. If set to yes this
+will enable PAM authentication using `KbdInteractiveAuthentication and
+PasswordAuthentication in addition to PAM account and session module processing
+for all authentication types.`
+
+Because PAM `keyboard-interactive authentication usually serves an equivalent
+role to password authentication`, you should disable either
+`PasswordAuthentication` or
+`KbdInteractiveAuthentication`. [^sshd-config-usepam]
+:::
+
+[^sshd-config-usepam]: man 5 sshd_config
+
+
+```{mermaid}
+%%| label: fig-sshd-nss-pam
+%%| fig-align: center
+%%| fig-cap: "Conversation between sshd, NSS and PAM"
+%%| file: diagrams/07-sshd-nss-pam.mmd
+```
 
 ::: {.callout-tip title="Alternative way"}
 One of the ways to get authentication information during ssh connection it's
@@ -282,6 +318,12 @@ Thus, all users is temporary
 %%| fig-cap: Using NSS and PAM by SSH server
 %%| file: diagrams/05-ssh-nss-pam.mmd
 ```
+
+### HLD [^HLD]
+
+![High Level Design](images/bg-hld.svg){fig-align="center" #bg-hld}
+
+[^HLD]: [Fortanix Data Security Manager](https://www.fortanix.com/resources/solution-briefs/fortanix-dsm-ssh-ca)
 
 ### Naming convention
 
@@ -331,6 +373,10 @@ Custom NSS module:
   [Naming convention](#naming-convention) section)
 - each user is assigned unique `UID/GID` but the group itself related to `GID`
   is not created
+- changing service name is not supported
+  (option `PAMServiceName`[^sshd-config-pam-service-name]).
+
+[^sshd-config-pam-service-name]: man 5 sshd_config
 
 Custom PAM module:
 
@@ -351,12 +397,17 @@ exist. In order to avoid the problem it’s necessary to limit services which ca
 use the custom NSS module and if calling service is not ssh then NSS module must
 return `NSS_STATUS_TRYAGAIN`. The `nss-devel` does not have any functions for
 checking service which calls NSS, but NSS modules can get some environment
-variables by analogy with PAM modules. So, `SYSTED_EXEC_PID` environment variable
-stores `PID` process which calls NSS service. When `PID` is known it enables to
-get service name via `/proc/PID/comm`. Thus, implementation of checking of
-service name partly solves the problem and enables to use the tools without
-adding users to a data source. Unlike the `nss-devel` in the `pam-devel` library
-is an implemented function for getting a service name.
+variables by analogy with PAM modules. So,
+`SYSTEMD_EXEC_PID`[^systemd-exec-pid] environment variable stores `PID` process
+which calls NSS service. When `PID` is known it enables to
+get service name via `/proc/PID/comm`[^proc-pid-comm]. Thus, implementation of
+checking of service name partly solves the problem and enables to use the tools
+without adding users to a data source. Unlike the `nss-devel` in the `pam-devel`
+library is an implemented function for getting a service name.
+
+[^systemd-exec-pid]: man 5 systemd.exec
+
+[^proc-pid-comm]: man 5 proc_pid_comm
 
 ```{mermaid}
 %%| label: fig-ssh-nss-pam-custom
@@ -383,7 +434,7 @@ emergency users but It does not guarantees that in the future the limitation may
 be removed.
 
 ::: {.callout-note title="@efrikin"}
-my thoughts led me to an idea that ssh port should be opened only
+My thoughts led me to an idea that ssh port should be opened only
 during emergency situations on network equipments. In regular time `ACLs` on
 network equipments should restrict an access to ssh port on hosts. Currently,
 In my opinion the processes must be splitted in order to manage and develop

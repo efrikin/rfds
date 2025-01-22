@@ -7,7 +7,7 @@ spec:
   terminationGracePeriodSeconds: 1
   containers:
     - name: preview
-      image: ghcr.io/quarto-dev/quarto:1.7.1
+      image: ghcr.io/quarto-dev/quarto:1.7.6
       command:
         - quarto
         - preview
