@@ -5,7 +5,8 @@ subtitle: |
   SSH Break-Glass
 status: discussion
 author:
-  - name: Evgenii Frikin
+  - Evgenii Frikin
+  - Denis Makrushin
 date: 2024-12-06
 date-format: long
 label:
@@ -354,12 +355,16 @@ must be defined as `::`. The `::` expands as `ssh_v1:!:users` by default.
 (has been tested on `Fedora 41 and OpenSSH 9.8p1`)
 
 ```conf
-UsePAM yes # <1>
-AuthenticationMethods publickey # <1>
-TrustedUserCAKeys /path/to/ca.pem # <1>
+Port 1110 # <1>
+UsePAM yes
+Match LocalPort 1110
+       TrustedUserCAKeys /path/to/ca
+       AuthenticationMethods publickey
+       PAMServiceName brkgl2s
+Match All
 ```
 
-1. _Add to sshd_config.d/break-glass.conf_
+1. _Add to /etc/ssh/sshd_config.d/00-break-glass.conf_
 
 ### Known limitations
 
