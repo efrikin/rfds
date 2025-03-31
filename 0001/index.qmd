@@ -394,21 +394,21 @@ Custom PAM module:
 
 ### Pitfals
 
-#### Checking service name
+#### Checking PAM service name
 
 System calls related to NSS which is used in tools, such as: `id`, `getent`,
-`etc.` will create a record in the users data source each time when user does not
-exist. In order to avoid the problem it’s necessary to limit services which can
-use the custom NSS module and if calling service is not ssh then NSS module must
-return `NSS_STATUS_TRYAGAIN`. The `nss-devel` does not have any functions for
-checking service which calls NSS, but NSS modules can get some environment
-variables by analogy with PAM modules. So,
+`etc.` will create a record in the users data source each time when user does
+not exist. In order to avoid the problem it’s necessary to limit PAM services
+which can use the custom NSS module and if calling PAM service is not ssh then
+NSS module must return `NSS_STATUS_TRYAGAIN`. The `nss-devel` does not have any
+functions for checking PAM service which calls NSS, but NSS modules can get
+some environment variables by analogy with PAM modules. So,
 `SYSTEMD_EXEC_PID`[^systemd-exec-pid] environment variable stores `PID` process
-which calls NSS service. When `PID` is known it enables to
-get service name via `/proc/PID/comm`[^proc-pid-comm]. Thus, implementation of
-checking of service name partly solves the problem and enables to use the tools
-without adding users to a data source. Unlike the `nss-devel` in the `pam-devel`
-library is an implemented function for getting a service name.
+which calls NSS service. When `PID` is known it enables to get process name via
+`/proc/PID/comm`[^proc-pid-comm]. Thus, implementation of checking of process
+name partly solves the problem and enables to use the tools without adding
+users to a data source. Unlike the `nss-devel` in the `pam-devel` library is an
+implemented function for getting a PAM service name.
 
 [^systemd-exec-pid]: man 5 systemd.exec
 
