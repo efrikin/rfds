@@ -7,8 +7,8 @@ sequenceDiagram
     s ->> n: Request NSS
     alt is user not found
         critical
-            Note over s, n: On this step NSS module gets PID <br/>from SYSTED_EXEC_PID and <br/>looks up service name in /proc/PID/comm
-            option calling service is not ssh
+            Note over s, n: On this step NSS module gets PID <br/>from SYSTED_EXEC_PID and <br/>looks up process name in /proc/PID/comm
+            option calling process is not ssh
                 n ->> s: NSS_STATUS_TRYAGAIN
             option username does not contain postfix
                 n ->> s: NSS_STATUS_TRYAGAIN
@@ -17,7 +17,7 @@ sequenceDiagram
         n ->> s: NSS_STATUS_SUCCESS
     else user is found
         critical
-            option calling service is ssh
+            option calling process is ssh
             option username does contain postfix
                 n ->> s: NSS_STATUS_SUCCESS
         end
