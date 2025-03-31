@@ -3,7 +3,7 @@ title: |-
   RFD: 0001
 subtitle: |
   SSH Break-Glass
-status: discussion
+status: published
 author:
   - Evgenii Frikin
   - Denis Makrushin
