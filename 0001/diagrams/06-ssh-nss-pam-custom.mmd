@@ -27,7 +27,6 @@ sequenceDiagram
     activate p
     alt successfully
         critical check
-        option service name
         option SSH_AUTH_INFO_0
             p ->> p: looks up pubkey
         option pubkey type
