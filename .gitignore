@@ -1,3 +1,7 @@
 /.quarto/
 /_site/
 /fonts/
+/asserts/
+/**/diagrams/rendered/
+
+**/*.quarto_ipynb
