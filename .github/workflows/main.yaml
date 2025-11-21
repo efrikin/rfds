@@ -21,6 +21,9 @@ jobs:
         run: |
           echo "[RFD source code](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}){target="_blank"}" > _link.qmd
 
+      - name: Install d2lang
+        run: curl -fsSL https://d2lang.com/install.sh | sh -s --
+
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
