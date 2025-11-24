@@ -3,7 +3,7 @@ title: |-
   RFD: 0001
 subtitle: |
   SSH Break-Glass
-status: discussion
+status: implemented
 author:
   - Evgenii Frikin
   - Denis Makrushin
@@ -17,6 +17,8 @@ link:
   - "[#3](https://github.com/efrikin/rfds/pull/3){target=_blank_}"
   - "[#4](https://github.com/efrikin/rfds/pull/4){target=_blank_}"
   - "[#5](https://github.com/efrikin/rfds/pull/5){target=_blank_}"
+  - "[#6](https://github.com/efrikin/rfds/pull/6){target=_blank_}"
+  - "[#7](https://github.com/efrikin/rfds/pull/7){target=_blank_}"
 open-graph: true
 filters:
   - d2
