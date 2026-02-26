@@ -1,4 +1,6 @@
-# RFD(s)
+# WE CONTINUE THE DEVELOPMENT AT [seshell/rfd](https://gitlab.com/seshell/rfd). This repository is abandoned, and no further updates will be done on the code base, nor issue/prs will be answered or attended.
+
+## RFD(s)
 
 This repository contains RFD(s).
 
